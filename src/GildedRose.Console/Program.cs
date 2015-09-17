@@ -1,10 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 namespace GildedRose.Console
 {
-    class Program
+    public class Program
     {
-        IList<Item> Items;
+        public IList<Item> Items;
+
+        private Dictionary<string, Type> ItemMapping = new Dictionary<string, Type>()
+        {
+            {"+5 Dexterity Vest", typeof (BaseItem)},
+            {"Aged Brie", typeof (AgedItem)},
+            {"Elixir of the Mongoose", typeof (BaseItem)},
+            {"Sulfuras, Hand of Ragnaros", typeof (LegendaryItem)},
+            {"Backstage passes to a TAFKAL80ETC concert", typeof (TicketItem)},
+            {"Conjured Mana Cake", typeof (ConjuredItem)}
+        };
+             
         static void Main(string[] args)
         {
             System.Console.WriteLine("OMGHAI!");
@@ -36,77 +49,12 @@ namespace GildedRose.Console
 
         public void UpdateQuality()
         {
-            for (var i = 0; i < Items.Count; i++)
+            foreach (var item in Items)
             {
-                if (Items[i].Name != "Aged Brie" && Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
-                {
-                    if (Items[i].Quality > 0)
-                    {
-                        if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                        {
-                            Items[i].Quality = Items[i].Quality - 1;
-                        }
-                    }
-                }
-                else
-                {
-                    if (Items[i].Quality < 50)
-                    {
-                        Items[i].Quality = Items[i].Quality + 1;
-
-                        if (Items[i].Name == "Backstage passes to a TAFKAL80ETC concert")
-                        {
-                            if (Items[i].SellIn < 11)
-                            {
-                                if (Items[i].Quality < 50)
-                                {
-                                    Items[i].Quality = Items[i].Quality + 1;
-                                }
-                            }
-
-                            if (Items[i].SellIn < 6)
-                            {
-                                if (Items[i].Quality < 50)
-                                {
-                                    Items[i].Quality = Items[i].Quality + 1;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                {
-                    Items[i].SellIn = Items[i].SellIn - 1;
-                }
-
-                if (Items[i].SellIn < 0)
-                {
-                    if (Items[i].Name != "Aged Brie")
-                    {
-                        if (Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
-                        {
-                            if (Items[i].Quality > 0)
-                            {
-                                if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                                {
-                                    Items[i].Quality = Items[i].Quality - 1;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Items[i].Quality = Items[i].Quality - Items[i].Quality;
-                        }
-                    }
-                    else
-                    {
-                        if (Items[i].Quality < 50)
-                        {
-                            Items[i].Quality = Items[i].Quality + 1;
-                        }
-                    }
-                }
+                Type itemType = ItemMapping[item.Name];
+                IItem convertedItem = (IItem)Activator.CreateInstance(itemType, item);
+                convertedItem.UpdateQuality();
+                convertedItem.UpdateSellIn();
             }
         }
 
@@ -119,6 +67,5 @@ namespace GildedRose.Console
         public int SellIn { get; set; }
 
         public int Quality { get; set; }
-    }
-
+    }  
 }
