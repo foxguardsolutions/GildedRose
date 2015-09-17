@@ -26,7 +26,7 @@ namespace GildedRose.Console
 
         public new void UpdateQuality()
         {
-            int modifier = (SellIn < 5) ? 3 : (SellIn < 10) ? 2 : 1;
+            int modifier = (SellIn <= 5) ? 3 : (SellIn <= 10) ? 2 : 1;
             Quality = Math.Min(50, Quality + modifier);
         }
     }
