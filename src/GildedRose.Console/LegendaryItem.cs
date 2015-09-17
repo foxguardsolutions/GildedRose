@@ -5,7 +5,7 @@
         public new int SellIn
         {
             get { return 0; }
-            set { internalItem.SellIn = 0; }
+            set { InternalItem.SellIn = 0; }
         }
 
         public LegendaryItem(Item wrappedItem) : base(wrappedItem)

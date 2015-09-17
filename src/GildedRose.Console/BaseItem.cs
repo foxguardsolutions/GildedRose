@@ -4,34 +4,34 @@ namespace GildedRose.Console
 {
     public class BaseItem : IItem
     {
-        public Item internalItem { get; set; }
+        public Item InternalItem { get; set; }
 
         public string Name
         {
-            get { return internalItem.Name; }
-            set { internalItem.Name = value; }
+            get { return InternalItem.Name; }
+            set { InternalItem.Name = value; }
         }
 
         public int SellIn
         {
-            get { return internalItem.SellIn; }
-            set { internalItem.SellIn = value; }
+            get { return InternalItem.SellIn; }
+            set { InternalItem.SellIn = value; }
         }
 
         public int Quality
         {
-            get { return internalItem.Quality; }
-            set { internalItem.Quality = value; }
+            get { return InternalItem.Quality; }
+            set { InternalItem.Quality = value; }
         }
 
         public BaseItem(Item wrappedItem)
         {
-            internalItem = wrappedItem;
+            InternalItem = wrappedItem;
         }
 
         public BaseItem(string name, int sellIn, int quality)
         {
-            internalItem = new Item();
+            InternalItem = new Item();
             Name = name;
             SellIn = sellIn;
             Quality = quality;

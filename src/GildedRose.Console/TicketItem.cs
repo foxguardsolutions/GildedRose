@@ -8,11 +8,11 @@ namespace GildedRose.Console
         {
             get
             {
-                return internalItem.Quality;
+                return InternalItem.Quality;
             }
             set
             {
-                internalItem.Quality = (SellIn < 0) ? 0 : value;
+                InternalItem.Quality = (SellIn < 0) ? 0 : value;
             }
         }
 
