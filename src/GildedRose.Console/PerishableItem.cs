@@ -9,11 +9,12 @@ namespace GildedRose.Console
         public int Quality { get; set; }
         public bool Conjured { get; set; }
 
-        public PerishableItem(string name, int quality, int sellIn)
+        public PerishableItem(string name, int quality, int sellIn, bool conjured = false)
         {
             Name = name;
             Quality = quality;
             SellIn = sellIn;
+            Conjured = conjured;
         }
 
         public void UpdateAfterDayElapsed()
@@ -38,7 +39,7 @@ namespace GildedRose.Console
 
         private bool IsExpired()
         {
-            return (SellIn <= 0) ? true : false;
+            return SellIn <= 0;
         }
 
         private int GrowthRate()
