@@ -31,7 +31,6 @@ namespace GildedRose.Console
             app.UpdateQuality();
 
             System.Console.ReadKey();
-
         }
 
         public void UpdateQuality()
