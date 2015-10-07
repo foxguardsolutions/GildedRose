@@ -31,12 +31,8 @@ namespace GildedRose.Console
             {
                 return 3;
             }
-            else if (SellIn <= 10)
-            {
-                return 2;
-            }
 
-            return 1;
+            return SellIn <= 10 ? 2 : 1;
         }
     }
 }
