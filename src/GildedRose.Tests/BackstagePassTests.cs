@@ -10,12 +10,12 @@ namespace GildedRose.Tests
         [SetUp]
         public new void SetName()
         {
-            Name = "Backstage passes to a TAFKAL80ETC concert";
+            Name = Fixture.Create("Backstage passes");
         }
 
-        [TestCase(11, 255, 1)]
-        [TestCase(6, 10, 2)]
-        [TestCase(1, 5, 3)]
+        [TestCase(BackstagePassUpdater.MANYDAYS + 1, byte.MaxValue, 1)]
+        [TestCase(BackstagePassUpdater.FEWDAYS + 1, BackstagePassUpdater.MANYDAYS, 2)]
+        [TestCase(BackstagePassUpdater.NODAYS + 1, BackstagePassUpdater.FEWDAYS, 3)]
         public void UpdateBackstagePassQuality_GivenSellInWithinRange_IncreasesQualityBy(
             int minDays, int maxDays, int expectedChange)
         {

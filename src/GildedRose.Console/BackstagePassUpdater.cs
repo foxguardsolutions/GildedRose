@@ -6,6 +6,10 @@ namespace GildedRose.Console
     {
         private Item _item;
 
+        public const int MANYDAYS = 10;
+        public const int FEWDAYS = 5;
+        public const int NODAYS = 0;
+
         public BackstagePassUpdater(Item item)
         {
             _item = item;
@@ -25,11 +29,11 @@ namespace GildedRose.Console
 
         private int CalculateQualityChange()
         {
-            if (_item.SellIn > 10)
+            if (_item.SellIn > MANYDAYS)
                 return 1;
-            if (_item.SellIn > 5)
+            if (_item.SellIn > FEWDAYS)
                 return 2;
-            if (_item.SellIn > 0)
+            if (_item.SellIn > NODAYS)
                 return 3;
             return -_item.Quality;
         }

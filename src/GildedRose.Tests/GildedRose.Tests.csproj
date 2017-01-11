@@ -66,6 +66,7 @@
     <Compile Include="AutoFixtureExtension.cs" />
     <Compile Include="BackstagePassTests.cs" />
     <Compile Include="BaseTests.cs" />
+    <Compile Include="ConjuredItemTests.cs" />
     <Compile Include="IncreasingQualityItemTests.cs" />
     <Compile Include="LegendaryTests.cs" />
     <Compile Include="NonLegendaryTests.cs" />

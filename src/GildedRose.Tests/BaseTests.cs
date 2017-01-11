@@ -9,21 +9,17 @@ namespace GildedRose.Tests
     {
         public Fixture Fixture { get; private set; }
         public IList<Item> Items { get; private set; }
-        private Program _program;
 
         [SetUp]
         public void BaseSetUp()
         {
-            _program = new Program();
             Fixture = new Fixture();
         }
 
         public void UpdateInventoryContaining(Item item)
         {
             PopulateItems(item);
-
-            // _program.UpdateQuality(Items);
-            _program.Update(Items);
+            Inventory.Update(Items);
         }
 
         private void PopulateItems(Item item)
