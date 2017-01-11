@@ -9,22 +9,22 @@ namespace GildedRose.Tests
     {
         public Fixture Fixture { get; private set; }
         public IList<Item> Items { get; private set; }
-        private Program _inventory;
+        private Program _program;
 
         [SetUp]
         public void BaseSetUp()
         {
-            _inventory = new Program();
+            _program = new Program();
             Fixture = new Fixture();
         }
 
         public void UpdateInventoryContaining(Item item)
         {
             PopulateItems(item);
-            _inventory.UpdateQuality(Items);
+            _program.UpdateQuality(Items);
         }
 
-        public void PopulateItems(Item item)
+        private void PopulateItems(Item item)
         {
             Items = new List<Item>
             {
@@ -37,9 +37,10 @@ namespace GildedRose.Tests
             };
         }
 
-        public void AssertNameDidNotChange(Item originalItem, Item updatedItem)
+        public void AssertQualityChangedBy(Item originalItem, Item updatedItem, int expectedChange)
         {
-            Assert.That(updatedItem.Name, Is.EqualTo(originalItem.Name));
+            var expectedQuality = originalItem.Quality + expectedChange;
+            Assert.That(updatedItem.Quality, Is.EqualTo(expectedQuality));
         }
 
         public void AssertSellInChangedBy(Item originalItem, Item updatedItem, int expectedChange)
@@ -48,10 +49,9 @@ namespace GildedRose.Tests
             Assert.That(updatedItem.SellIn, Is.EqualTo(expectedSellIn));
         }
 
-        public void AssertQualityChangedBy(Item originalItem, Item updatedItem, int expectedChange)
+        public void AssertNameDidNotChange(Item originalItem, Item updatedItem)
         {
-            var expectedQuality = originalItem.Quality + expectedChange;
-            Assert.That(updatedItem.Quality, Is.EqualTo(expectedQuality));
+            Assert.That(updatedItem.Name, Is.EqualTo(originalItem.Name));
         }
     }
 }

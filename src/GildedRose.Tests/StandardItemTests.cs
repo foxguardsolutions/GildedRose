@@ -5,26 +5,45 @@ using Ploeh.AutoFixture;
 namespace GildedRose.Tests
 {
     [TestFixture]
-    public class StandardItemTests : BaseTests
+    public class StandardItemTests : NonLegendaryTests
     {
         [Test]
-        public void UpdateQuality_GivenSellByDateInFutureAndPositiveQuality_DecreasesQualityByOne()
+        public void UpdateStandardItemQuality_GivenPositiveSellIn_DecreasesQualityByOne()
         {
-            var name = Fixture.Create<string>();
             var sellIn = Fixture.Create<int>();
-            var quality = Fixture.CreateBetween<int>(1, 50);
-            var standardItem = new Item { Name = name, SellIn = sellIn, Quality = quality };
+            var quality = Fixture.CreateInRange<int>(Inventory.MINQUALITY + 1, Inventory.MAXQUALITY);
+            var standardItem = new Item { Name = Name, SellIn = sellIn, Quality = quality };
+            var expectedChange = -1;
 
             UpdateInventoryContaining(standardItem);
 
-            AssertSellInDroppedOneQualityDroppedOne(standardItem, Items[0]);
+            AssertQualityChangedBy(standardItem, Items[0], expectedChange);
         }
 
-        private void AssertSellInDroppedOneQualityDroppedOne(Item originalItem, Item updatedItem)
+        [Test]
+        public void UpdateStandardItemQuality_GivenNonPositiveSellIn_DecreasesQualityByTwo()
         {
-            AssertNameDidNotChange(originalItem, updatedItem);
-            AssertSellInChangedBy(originalItem, updatedItem, -1);
-            AssertQualityChangedBy(originalItem, updatedItem, -1);
+            var sellIn = Fixture.CreateNonPositive();
+            var quality = Fixture.CreateInRange<int>(Inventory.MINQUALITY + 2, Inventory.MAXQUALITY);
+            var standardItem = new Item { Name = Name, SellIn = sellIn, Quality = quality };
+            var expectedChange = -2;
+
+            UpdateInventoryContaining(standardItem);
+
+            AssertQualityChangedBy(standardItem, Items[0], expectedChange);
+        }
+
+        [Test]
+        public void UpdateStandardItemQuality_GivenQualityThatCouldDecreaseBelowMinimum_LeavesQualityAtMinimum()
+        {
+            var sellIn = Fixture.Create<int>();
+            var quality = Fixture.CreateInRange<int>(Inventory.MINQUALITY, Inventory.MINQUALITY + 1);
+            var standardItem = new Item { Name = Name, SellIn = sellIn, Quality = quality };
+            var expectedChange = Inventory.MINQUALITY - quality;
+
+            UpdateInventoryContaining(standardItem);
+
+            AssertQualityChangedBy(standardItem, Items[0], expectedChange);
         }
     }
 }

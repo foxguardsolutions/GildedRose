@@ -8,7 +8,7 @@ namespace GildedRose.Tests
     public class LegendaryTests : BaseTests
     {
         [Test]
-        public void UpdateQuality_MakesNoChangeToItem()
+        public void UpdateLegendaryItemQuality_MakesNoChangeToItem()
         {
             var quality = Fixture.Create<int>();
             var sulfuras = new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = quality };

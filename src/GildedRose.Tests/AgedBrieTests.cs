@@ -5,25 +5,38 @@ using Ploeh.AutoFixture;
 namespace GildedRose.Tests
 {
     [TestFixture]
-    public class AgedBrieTests : BaseTests
+    public class AgedBrieTests : IncreasingQualityItemTests
     {
+        [SetUp]
+        public new void SetName()
+        {
+            Name = "Aged Brie";
+        }
+
         [Test]
-        public void UpdateQuality_GivenSellByDateInTheFutureAndQualityLessThanFifty_IncreasesQualityByOne()
+        public void UpdateAgedBrieQuality_GivenPositiveSellIn_IncreasesQualityByOne()
         {
             var sellIn = Fixture.Create<int>();
-            var quality = Fixture.CreateBetween<int>(0, 49);
-            var brie = new Item { Name = "Aged Brie", SellIn = sellIn, Quality = quality };
+            var quality = Fixture.CreateInRange<int>(Inventory.MINQUALITY, Inventory.MAXQUALITY - 1);
+            var brie = new Item { Name = Name, SellIn = sellIn, Quality = quality };
+            var expectedChange = 1;
 
             UpdateInventoryContaining(brie);
 
-            AssertSellInDroppedOneQualityIncreasedOne(brie, Items[0]);
+            AssertQualityChangedBy(brie, Items[0], expectedChange);
         }
 
-        private void AssertSellInDroppedOneQualityIncreasedOne(Item originalItem, Item updatedItem)
+        [Test]
+        public void UpdateAgedBrieQuality_GivenNonPositiveSellIn_IncreasesQualityByTwo()
         {
-            AssertNameDidNotChange(originalItem, updatedItem);
-            AssertSellInChangedBy(originalItem, updatedItem, -1);
-            AssertQualityChangedBy(originalItem, updatedItem, 1);
+            var sellIn = Fixture.CreateNonPositive();
+            var quality = Fixture.CreateInRange<int>(Inventory.MINQUALITY, Inventory.MAXQUALITY - 2);
+            var brie = new Item { Name = Name, SellIn = sellIn, Quality = quality };
+            var expectedChange = 2;
+
+            UpdateInventoryContaining(brie);
+
+            AssertQualityChangedBy(brie, Items[0], expectedChange);
         }
     }
 }
