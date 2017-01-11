@@ -47,10 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgedBrieUpdater.cs" />
+    <Compile Include="BackstagePassUpdater.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="IUpdater.cs" />
+    <Compile Include="LegendaryItemUpdater.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StandardItemUpdater.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -21,7 +21,9 @@ namespace GildedRose.Tests
         public void UpdateInventoryContaining(Item item)
         {
             PopulateItems(item);
-            _program.UpdateQuality(Items);
+
+            // _program.UpdateQuality(Items);
+            _program.Update(Items);
         }
 
         private void PopulateItems(Item item)

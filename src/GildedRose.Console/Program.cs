@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace GildedRose.Console
 {
@@ -35,9 +34,32 @@ namespace GildedRose.Console
 
         public void UpdateQuality()
         {
-            UpdateQuality(_items);
+            // UpdateQuality(_items);
+            Update(_items);
         }
 
+        public void Update(IList<Item> items)
+        {
+            foreach (Item item in items)
+            {
+                var updater = CreateUpdater(item);
+                updater.UpdateQuality();
+                updater.UpdateSellIn();
+            }
+        }
+
+        private IUpdater CreateUpdater(Item item)
+        {
+            if (item.Name == "Aged Brie")
+                return new AgedBrieUpdater(item);
+            if (item.Name == "Sulfuras, Hand of Ragnaros")
+                return new LegendaryItemUpdater(item);
+            if (item.Name.StartsWith("Backstage passes"))
+                return new BackstagePassUpdater(item);
+            return new StandardItemUpdater(item);
+        }
+
+        /*
         public void UpdateQuality(IList<Item> items)
         {
             for (var i = 0; i < items.Count; i++)
@@ -119,6 +141,6 @@ namespace GildedRose.Console
                     }
                 }
             }
-        }
+        }*/
     }
 }
