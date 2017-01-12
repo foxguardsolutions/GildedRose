@@ -9,14 +9,12 @@ namespace GildedRose.Tests
         [Test]
         public void UpdateQualityOfIncreasingQualityItem_GivenQualityThatCouldIncreaseAboveMaximum_LeavesQualityAtMaximum()
         {
-            var sellIn = Fixture.Create<int>();
-            var quality = Fixture.CreateInRange<int>(Inventory.MAXQUALITY - 1, Inventory.MAXQUALITY);
-            var increasingQualityItem = new Item { Name = Name, SellIn = sellIn, Quality = quality };
-            var expectedChange = Inventory.MAXQUALITY - quality;
+            Item.Quality = Fixture.CreateInRange<int>(Inventory.MAX_QUALITY - 1, Inventory.MAX_QUALITY);
+            var expectedChange = Inventory.MAX_QUALITY - Item.Quality;
 
-            UpdateInventoryContaining(increasingQualityItem);
+            UpdateInventoryContaining(Item);
 
-            AssertQualityChangedBy(increasingQualityItem, Items[0], expectedChange);
+            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
         }
     }
 }

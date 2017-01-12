@@ -8,48 +8,43 @@ namespace GildedRose.Tests
     public class ConjuredItemTests : NonLegendaryTests
     {
         [SetUp]
-        public new void SetName()
+        public void SetName()
         {
-            Name = Fixture.Create("Conjured");
+            Item.Name = Fixture.Create("Conjured");
         }
 
         [Test]
         public void UpdateConjuredItemQuality_GivenPositiveSellIn_DecreasesQualityByTwo()
         {
-            var sellIn = Fixture.Create<int>();
-            var quality = Fixture.CreateInRange<int>(Inventory.MINQUALITY + 2, Inventory.MAXQUALITY);
-            var conjuredItem = new Item { Name = Name, SellIn = sellIn, Quality = quality };
+            Item.Quality = Fixture.CreateInRange<int>(Inventory.MIN_QUALITY + 2, Inventory.MAX_QUALITY);
             var expectedChange = -2;
 
-            UpdateInventoryContaining(conjuredItem);
+            UpdateInventoryContaining(Item);
 
-            AssertQualityChangedBy(conjuredItem, Items[0], expectedChange);
+            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
         }
 
         [Test]
         public void UpdateConjuredItemQuality_GivenNonPositiveSellIn_DecreasesQualityByFour()
         {
-            var sellIn = Fixture.CreateNonPositive();
-            var quality = Fixture.CreateInRange<int>(Inventory.MINQUALITY + 4, Inventory.MAXQUALITY);
-            var conjuredItem = new Item { Name = Name, SellIn = sellIn, Quality = quality };
+            Item.SellIn = Fixture.CreateNonPositive();
+            Item.Quality = Fixture.CreateInRange<int>(Inventory.MIN_QUALITY + 4, Inventory.MAX_QUALITY);
             var expectedChange = -4;
 
-            UpdateInventoryContaining(conjuredItem);
+            UpdateInventoryContaining(Item);
 
-            AssertQualityChangedBy(conjuredItem, Items[0], expectedChange);
+            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
         }
 
         [Test]
         public void UpdateConjuredItemQuality_GivenQualityThatCouldDecreaseBelowMinimum_LeavesQualityAtMinimum()
         {
-            var sellIn = Fixture.Create<int>();
-            var quality = Fixture.CreateInRange<int>(Inventory.MINQUALITY, Inventory.MINQUALITY + 2);
-            var conjuredItem = new Item { Name = Name, SellIn = sellIn, Quality = quality };
-            var expectedChange = Inventory.MINQUALITY - quality;
+            Item.Quality = Fixture.CreateInRange<int>(Inventory.MIN_QUALITY, Inventory.MIN_QUALITY + 2);
+            var expectedChange = Inventory.MIN_QUALITY - Item.Quality;
 
-            UpdateInventoryContaining(conjuredItem);
+            UpdateInventoryContaining(Item);
 
-            AssertQualityChangedBy(conjuredItem, Items[0], expectedChange);
+            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
         }
     }
 }

@@ -1,46 +1,25 @@
-﻿using System;
-
-namespace GildedRose.Console
+﻿namespace GildedRose.Console
 {
-    public class BackstagePassUpdater : IUpdater
+    public class BackstagePassUpdater : Updater
     {
-        private Item _item;
-
-        public const int MANYDAYS = 10;
-        public const int FEWDAYS = 5;
-        public const int NODAYS = 0;
+        public const int MANY_DAYS = 10;
+        public const int FEW_DAYS = 5;
+        public const int NO_DAYS = 0;
 
         public BackstagePassUpdater(Item item)
+            : base(item)
         {
-            _item = item;
         }
 
-        public void UpdateSellIn()
+        protected override int CalculateQualityChange()
         {
-            _item.SellIn--;
-        }
-
-        public void UpdateQuality()
-        {
-            var newQuality = _item.Quality + CalculateQualityChange();
-            newQuality = VerifyInRange(newQuality);
-            _item.Quality = newQuality;
-        }
-
-        private int CalculateQualityChange()
-        {
-            if (_item.SellIn > MANYDAYS)
+            if (Item.SellIn > MANY_DAYS)
                 return 1;
-            if (_item.SellIn > FEWDAYS)
+            if (Item.SellIn > FEW_DAYS)
                 return 2;
-            if (_item.SellIn > NODAYS)
+            if (Item.SellIn > NO_DAYS)
                 return 3;
-            return -_item.Quality;
-        }
-
-        private int VerifyInRange(int newQuality)
-        {
-            return Math.Min(newQuality, Inventory.MAXQUALITY);
+            return -Item.Quality;
         }
     }
 }

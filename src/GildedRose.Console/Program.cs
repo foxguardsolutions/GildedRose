@@ -1,40 +1,36 @@
-﻿using System.Collections.Generic;
-
-namespace GildedRose.Console
+﻿namespace GildedRose.Console
 {
     public class Program
     {
-        private IList<Item> _items;
+        private Inventory _inventory;
         public static void Main(string[] args)
         {
             System.Console.WriteLine("OMGHAI!");
 
             var app = new Program()
             {
-                _items = new List<Item>
-                {
-                    new Item { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
-                    new Item { Name = "Aged Brie", SellIn = 2, Quality = 0 },
-                    new Item { Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7 },
-                    new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 },
-                    new Item
-                    {
-                        Name = "Backstage passes to a TAFKAL80ETC concert",
-                        SellIn = 15,
-                        Quality = 20
-                    },
-                    new Item { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
-                }
+                _inventory = new Inventory()
             };
 
-            app.UpdateQuality();
+            app.Run();
 
             System.Console.ReadKey();
         }
 
-        public void UpdateQuality()
+        private void Run()
         {
-            Inventory.Update(_items);
+            PopulateItems();
+            _inventory.AgeAlterableItems();
+        }
+
+        private void PopulateItems()
+        {
+            _inventory.AddItem("+5 Dexterity Vest", 10, 20);
+            _inventory.AddItem("Aged Brie", 2, 0);
+            _inventory.AddItem("Elixir of the Mongoose", 5, 7);
+            _inventory.AddItem("Sulfuras, Hand of Ragnaros", 0, 80);
+            _inventory.AddItem("Backstage passes to a TAFKAL80ETC concert", 15, 20);
+            _inventory.AddItem("Conjured Mana Cake", 3, 6);
         }
     }
 }

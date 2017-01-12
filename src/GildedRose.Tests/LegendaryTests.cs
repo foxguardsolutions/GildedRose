@@ -1,6 +1,5 @@
 ﻿using GildedRose.Console;
 using NUnit.Framework;
-using Ploeh.AutoFixture;
 
 namespace GildedRose.Tests
 {
@@ -10,12 +9,11 @@ namespace GildedRose.Tests
         [Test]
         public void UpdateLegendaryItemQuality_MakesNoChangeToItem()
         {
-            var quality = Fixture.Create<int>();
-            var sulfuras = new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = quality };
+            Item.Name = "Sulfuras, Hand of Ragnaros";
 
-            UpdateInventoryContaining(sulfuras);
+            UpdateInventoryContaining(Item);
 
-            AssertDidNotChange(sulfuras, Items[0]);
+            AssertDidNotChange(Item, Inventory.Items[0]);
         }
 
         private void AssertDidNotChange(Item originalItem, Item updatedItem)

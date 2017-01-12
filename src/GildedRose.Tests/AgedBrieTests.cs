@@ -8,35 +8,32 @@ namespace GildedRose.Tests
     public class AgedBrieTests : IncreasingQualityItemTests
     {
         [SetUp]
-        public new void SetName()
+        public void SetName()
         {
-            Name = "Aged Brie";
+            Item.Name = "Aged Brie";
         }
 
         [Test]
         public void UpdateAgedBrieQuality_GivenPositiveSellIn_IncreasesQualityByOne()
         {
-            var sellIn = Fixture.Create<int>();
-            var quality = Fixture.CreateInRange<int>(Inventory.MINQUALITY, Inventory.MAXQUALITY - 1);
-            var brie = new Item { Name = Name, SellIn = sellIn, Quality = quality };
+            Item.Quality = Fixture.CreateInRange<int>(Inventory.MIN_QUALITY, Inventory.MAX_QUALITY - 1);
             var expectedChange = 1;
 
-            UpdateInventoryContaining(brie);
+            UpdateInventoryContaining(Item);
 
-            AssertQualityChangedBy(brie, Items[0], expectedChange);
+            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
         }
 
         [Test]
         public void UpdateAgedBrieQuality_GivenNonPositiveSellIn_IncreasesQualityByTwo()
         {
-            var sellIn = Fixture.CreateNonPositive();
-            var quality = Fixture.CreateInRange<int>(Inventory.MINQUALITY, Inventory.MAXQUALITY - 2);
-            var brie = new Item { Name = Name, SellIn = sellIn, Quality = quality };
+            Item.SellIn = Fixture.CreateNonPositive();
+            Item.Quality = Fixture.CreateInRange<int>(Inventory.MIN_QUALITY, Inventory.MAX_QUALITY - 2);
             var expectedChange = 2;
 
-            UpdateInventoryContaining(brie);
+            UpdateInventoryContaining(Item);
 
-            AssertQualityChangedBy(brie, Items[0], expectedChange);
+            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
         }
     }
 }

@@ -2,7 +2,6 @@
 {
     public interface IUpdater
     {
-        void UpdateSellIn();
-        void UpdateQuality();
+        void AgeItem();
     }
 }

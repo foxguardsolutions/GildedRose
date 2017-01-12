@@ -8,37 +8,34 @@ namespace GildedRose.Tests
     public class BackstagePassTests : IncreasingQualityItemTests
     {
         [SetUp]
-        public new void SetName()
+        public void SetName()
         {
-            Name = Fixture.Create("Backstage passes");
+            Item.Name = Fixture.Create("Backstage passes");
         }
 
-        [TestCase(BackstagePassUpdater.MANYDAYS + 1, byte.MaxValue, 1)]
-        [TestCase(BackstagePassUpdater.FEWDAYS + 1, BackstagePassUpdater.MANYDAYS, 2)]
-        [TestCase(BackstagePassUpdater.NODAYS + 1, BackstagePassUpdater.FEWDAYS, 3)]
+        [TestCase(BackstagePassUpdater.MANY_DAYS + 1, byte.MaxValue, 1)]
+        [TestCase(BackstagePassUpdater.FEW_DAYS + 1, BackstagePassUpdater.MANY_DAYS, 2)]
+        [TestCase(BackstagePassUpdater.NO_DAYS + 1, BackstagePassUpdater.FEW_DAYS, 3)]
         public void UpdateBackstagePassQuality_GivenSellInWithinRange_IncreasesQualityBy(
             int minDays, int maxDays, int expectedChange)
         {
-            var sellIn = Fixture.CreateInRange<int>(minDays, maxDays);
-            var quality = Fixture.CreateInRange<int>(Inventory.MINQUALITY, Inventory.MAXQUALITY - expectedChange);
-            var passes = new Item { Name = Name, SellIn = sellIn, Quality = quality };
+            Item.SellIn = Fixture.CreateInRange<int>(minDays, maxDays);
+            Item.Quality = Fixture.CreateInRange<int>(Inventory.MIN_QUALITY, Inventory.MAX_QUALITY - expectedChange);
 
-            UpdateInventoryContaining(passes);
+            UpdateInventoryContaining(Item);
 
-            AssertQualityChangedBy(passes, Items[0], expectedChange);
+            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
         }
 
         [Test]
         public void UpdateBackstagePassQuality_GivenNonPositiveSellIn_LeavesQualityAtMinimum()
         {
-            var sellIn = Fixture.CreateNonPositive();
-            var quality = Fixture.Create<int>();
-            var passes = new Item { Name = Name, SellIn = sellIn, Quality = quality };
-            var expectedChange = Inventory.MINQUALITY - quality;
+            Item.SellIn = Fixture.CreateNonPositive();
+            var expectedChange = Inventory.MIN_QUALITY - Item.Quality;
 
-            UpdateInventoryContaining(passes);
+            UpdateInventoryContaining(Item);
 
-            AssertQualityChangedBy(passes, Items[0], expectedChange);
+            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
         }
     }
 }
