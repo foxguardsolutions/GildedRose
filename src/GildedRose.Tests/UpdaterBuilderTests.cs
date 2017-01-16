@@ -6,14 +6,14 @@ using Ploeh.AutoFixture;
 
 namespace GildedRose.Tests
 {
-    public class UpdateManagerTests : BaseTests
+    public class UpdaterBuilderTests : BaseTests
     {
-        private UpdateManager _updateManager;
+        private UpdaterBuilder _updateManager;
 
         [SetUp]
         public void SetUp()
         {
-            _updateManager = new UpdateManager();
+            _updateManager = new UpdaterBuilder();
         }
 
         [Test]

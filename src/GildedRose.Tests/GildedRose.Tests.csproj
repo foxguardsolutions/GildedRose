@@ -69,11 +69,12 @@
     <Compile Include="ConjuredItemTests.cs" />
     <Compile Include="IncreasingQualityItemTests.cs" />
     <Compile Include="InventoryTests.cs" />
+    <Compile Include="ItemFactoryTests.cs" />
     <Compile Include="LegendaryTests.cs" />
     <Compile Include="NonLegendaryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StandardItemTests.cs" />
-    <Compile Include="UpdateManagerTests.cs" />
+    <Compile Include="UpdaterBuilderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

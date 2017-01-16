@@ -8,17 +8,12 @@ namespace GildedRose.Console
         public const int MAX_QUALITY = 50;
         public IList<Item> Items { get; private set; }
         private ItemFactory _itemFactory;
-        private UpdateManager _updateManager;
+        private UpdaterBuilder _updaterBuilder;
 
-        public Inventory()
-            : this(new ItemFactory(), new UpdateManager())
-        {
-        }
-
-        private Inventory(ItemFactory itemFactory, UpdateManager updateManager)
+        public Inventory(ItemFactory itemFactory, UpdaterBuilder updaterBuilder)
         {
             _itemFactory = itemFactory;
-            _updateManager = updateManager;
+            _updaterBuilder = updaterBuilder;
             Items = new List<Item>();
         }
 
@@ -30,7 +25,7 @@ namespace GildedRose.Console
 
         public void AgeAlterableItems()
         {
-            var alterableItems = _updateManager.FilterAlterable(Items);
+            var alterableItems = _updaterBuilder.FilterAlterable(Items);
             Age(alterableItems);
         }
 
@@ -38,7 +33,7 @@ namespace GildedRose.Console
         {
             foreach (var item in items)
             {
-                var updater = _updateManager.CreateUpdaterFor(item);
+                var updater = _updaterBuilder.CreateUpdaterFor(item);
                 updater.AgeItem();
             }
         }

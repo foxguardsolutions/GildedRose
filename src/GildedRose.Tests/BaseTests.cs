@@ -16,7 +16,7 @@ namespace GildedRose.Tests
         public void BaseSetUp()
         {
             Fixture = new Fixture();
-            Inventory = new Inventory();
+            Inventory = Fixture.Create<Inventory>();
             Item = Fixture.Create<Item>();
         }
 

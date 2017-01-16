@@ -3,14 +3,12 @@ using System.Linq;
 
 namespace GildedRose.Console
 {
-    public class UpdateManager
+    public class UpdaterBuilder
     {
-        private static string[] _unalterableItemNames = new string[] { "Sulfuras, Hand of Ragnaros" };
-
         public IEnumerable<Item> FilterAlterable(IEnumerable<Item> items)
         {
             return from item in items
-                   where !_unalterableItemNames.Contains(item.Name)
+                   where item.GetType() == typeof(AlterableItem)
                    select item;
         }
 
