@@ -4,17 +4,17 @@ using Ploeh.AutoFixture;
 
 namespace GildedRose.Tests
 {
-    public abstract class IncreasingQualityItemTests : NonLegendaryTests
+    public abstract class IncreasingQualityItemTests : AlterableItemTests
     {
         [Test]
-        public void UpdateQualityOfIncreasingQualityItem_GivenQualityThatCouldIncreaseAboveMaximum_LeavesQualityAtMaximum()
+        public void ChangeQualityOfIncreasingQualityItem_GivenQualityThatCouldIncreaseAboveMaximum_LeavesQualityAtMaximum()
         {
-            Item.Quality = Fixture.CreateInRange<int>(Inventory.MAX_QUALITY - 1, Inventory.MAX_QUALITY);
-            var expectedChange = Inventory.MAX_QUALITY - Item.Quality;
+            var initialQuality = Fixture.CreateInRange<int>(QualitySpecification.MAX_QUALITY - 1, QualitySpecification.MAX_QUALITY);
+            AlterableItem.Quality = initialQuality;
 
-            UpdateInventoryContaining(Item);
+            AlterableItem.ChangeQuality();
 
-            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
+            Assert.That(AlterableItem.Quality, Is.EqualTo(QualitySpecification.MAX_QUALITY));
         }
     }
 }

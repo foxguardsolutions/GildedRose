@@ -1,15 +1,15 @@
 ﻿namespace GildedRose.Console
 {
-    public class AgedBrieUpdater : Updater
+    public class AgedBrieItem : AlterableItem
     {
-        public AgedBrieUpdater(Item item)
-            : base(item)
+        public AgedBrieItem(string name, int daysToSell, int quality)
+            : base(name, daysToSell, quality)
         {
         }
 
         protected override int CalculateQualityChange()
         {
-            if (Item.SellIn > 0)
+            if (SellIn > 0)
                 return 1;
             return 2;
         }

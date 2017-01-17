@@ -1,15 +1,15 @@
 ﻿namespace GildedRose.Console
 {
-    public class ConjuredItemUpdater : Updater
+    public class ConjuredItem : AlterableItem
     {
-        public ConjuredItemUpdater(Item item)
-            : base(item)
+        public ConjuredItem(string name, int daysToSell, int quality)
+            : base(name, daysToSell, quality)
         {
         }
 
         protected override int CalculateQualityChange()
         {
-            if (Item.SellIn > 0)
+            if (SellIn > 0)
                 return -2;
             return -4;
         }

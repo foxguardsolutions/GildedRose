@@ -1,15 +1,15 @@
 ﻿namespace GildedRose.Console
 {
-    public class StandardItemUpdater : Updater
+    public class StandardItem : AlterableItem
     {
-        public StandardItemUpdater(Item item)
-            : base(item)
+        public StandardItem(string name, int daysToSell, int quality)
+            : base(name, daysToSell, quality)
         {
         }
 
         protected override int CalculateQualityChange()
         {
-            if (Item.SellIn > 0)
+            if (SellIn > 0)
                 return -1;
             return -2;
         }

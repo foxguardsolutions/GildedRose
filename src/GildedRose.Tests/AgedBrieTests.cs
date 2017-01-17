@@ -10,30 +10,30 @@ namespace GildedRose.Tests
         [SetUp]
         public void SetName()
         {
-            Item.Name = "Aged Brie";
+            AlterableItem = Fixture.Create<AgedBrieItem>();
         }
 
         [Test]
-        public void UpdateAgedBrieQuality_GivenPositiveSellIn_IncreasesQualityByOne()
+        public void ChangeAgedBrieQuality_GivenPositiveSellIn_IncreasesQualityByOne()
         {
-            Item.Quality = Fixture.CreateInRange<int>(Inventory.MIN_QUALITY, Inventory.MAX_QUALITY - 1);
-            var expectedChange = 1;
+            var initialQuality = Fixture.CreateInRange<int>(QualitySpecification.MIN_QUALITY, QualitySpecification.MAX_QUALITY - 1);
+            AlterableItem.Quality = initialQuality;
 
-            UpdateInventoryContaining(Item);
+            AlterableItem.ChangeQuality();
 
-            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
+            Assert.That(AlterableItem.Quality, Is.EqualTo(initialQuality + 1));
         }
 
         [Test]
-        public void UpdateAgedBrieQuality_GivenNonPositiveSellIn_IncreasesQualityByTwo()
+        public void ChangeAgedBrieQuality_GivenNonPositiveSellIn_IncreasesQualityByTwo()
         {
-            Item.SellIn = Fixture.CreateNonPositive();
-            Item.Quality = Fixture.CreateInRange<int>(Inventory.MIN_QUALITY, Inventory.MAX_QUALITY - 2);
-            var expectedChange = 2;
+            AlterableItem.SellIn = Fixture.CreateNonPositive();
+            var initialQuality = Fixture.CreateInRange<int>(QualitySpecification.MIN_QUALITY, QualitySpecification.MAX_QUALITY - 2);
+            AlterableItem.Quality = initialQuality;
 
-            UpdateInventoryContaining(Item);
+            AlterableItem.ChangeQuality();
 
-            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
+            Assert.That(AlterableItem.Quality, Is.EqualTo(initialQuality + 2));
         }
     }
 }

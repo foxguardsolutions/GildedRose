@@ -1,6 +1,12 @@
 ﻿namespace GildedRose.Console
 {
-    public class UnalterableItem : Item
+    public abstract class UnalterableItem : Item
     {
+        public UnalterableItem(string name, int daysToSell, int quality)
+        {
+            Name = name;
+            SellIn = daysToSell;
+            Quality = quality;
+        }
     }
 }

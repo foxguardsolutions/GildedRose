@@ -1,41 +1,50 @@
-﻿using GildedRose.Console;
+﻿using System.Collections.Generic;
+using GildedRose.Console;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 
 namespace GildedRose.Tests
 {
     [TestFixture]
-    public class BackstagePassTests : IncreasingQualityItemTests
+    public class BackstagePassItemTests : IncreasingQualityItemTests
     {
         [SetUp]
         public void SetName()
         {
-            Item.Name = Fixture.Create("Backstage passes");
+            AlterableItem = Fixture.Create<BackstagePassItem>();
         }
 
-        [TestCase(BackstagePassUpdater.MANY_DAYS + 1, byte.MaxValue, 1)]
-        [TestCase(BackstagePassUpdater.FEW_DAYS + 1, BackstagePassUpdater.MANY_DAYS, 2)]
-        [TestCase(BackstagePassUpdater.NO_DAYS + 1, BackstagePassUpdater.FEW_DAYS, 3)]
-        public void UpdateBackstagePassQuality_GivenSellInWithinRange_IncreasesQualityBy(
+        [TestCaseSource(nameof(ChangeBackstagePassQualityTestCases))]
+        public void ChangeBackstagePassItemQuality_GivenSellInWithinRange_IncreasesQualityBy(
             int minDays, int maxDays, int expectedChange)
         {
-            Item.SellIn = Fixture.CreateInRange<int>(minDays, maxDays);
-            Item.Quality = Fixture.CreateInRange<int>(Inventory.MIN_QUALITY, Inventory.MAX_QUALITY - expectedChange);
+            AlterableItem.SellIn = Fixture.CreateInRange<int>(minDays, maxDays);
+            var initialQuality = Fixture.CreateInRange<int>(QualitySpecification.MIN_QUALITY, QualitySpecification.MAX_QUALITY - expectedChange);
+            AlterableItem.Quality = initialQuality;
 
-            UpdateInventoryContaining(Item);
+            AlterableItem.ChangeQuality();
 
-            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
+            Assert.That(AlterableItem.Quality, Is.EqualTo(initialQuality + expectedChange));
+        }
+
+        private static IEnumerable<TestCaseData> ChangeBackstagePassQualityTestCases()
+        {
+            yield return new TestCaseData(BackstagePassItem.NO_DAYS + 1, BackstagePassItem.FEW_DAYS, 3)
+                .SetName("ChangeBackstagePassItemQuality_GivenThreeOrFewerDaysUntilConcert_IncreasesQualityByThree");
+            yield return new TestCaseData(BackstagePassItem.FEW_DAYS + 1, BackstagePassItem.MANY_DAYS, 2)
+                .SetName("ChangeBackstagePassItemQuality_GivenSixToTenDaysUntilConcert_IncreasesQualityByTwo");
+            yield return new TestCaseData(BackstagePassItem.MANY_DAYS + 1, byte.MaxValue, 1)
+                .SetName("ChangeBackstagePassItemQuality_GivenElevenOrMoreDaysUntilConcert_IncreasesQualityByOne");
         }
 
         [Test]
-        public void UpdateBackstagePassQuality_GivenNonPositiveSellIn_LeavesQualityAtMinimum()
+        public void ChangeBackstagePassItemQuality_GivenAfterConcert_LeavesQualityAtMinimum()
         {
-            Item.SellIn = Fixture.CreateNonPositive();
-            var expectedChange = Inventory.MIN_QUALITY - Item.Quality;
+            AlterableItem.SellIn = Fixture.CreateNonPositive();
 
-            UpdateInventoryContaining(Item);
+            AlterableItem.ChangeQuality();
 
-            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
+            Assert.That(AlterableItem.Quality, Is.EqualTo(QualitySpecification.MIN_QUALITY));
         }
     }
 }

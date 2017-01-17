@@ -5,40 +5,46 @@ using Ploeh.AutoFixture;
 namespace GildedRose.Tests
 {
     [TestFixture]
-    public class StandardItemTests : NonLegendaryTests
+    public class StandardItemTests : AlterableItemTests
     {
-        [Test]
-        public void UpdateStandardItemQuality_GivenPositiveSellIn_DecreasesQualityByOne()
+        [SetUp]
+        public void SetUp()
         {
-            Item.Quality = Fixture.CreateInRange<int>(Inventory.MIN_QUALITY + 1, Inventory.MAX_QUALITY);
-            var expectedChange = -1;
-
-            UpdateInventoryContaining(Item);
-
-            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
+            AlterableItem = Fixture.Create<StandardItem>();
         }
 
         [Test]
-        public void UpdateStandardItemQuality_GivenNonPositiveSellIn_DecreasesQualityByTwo()
+        public void ChangeStandardItemQuality_GivenPositiveSellIn_DecreasesQualityByOne()
         {
-            Item.SellIn = Fixture.CreateNonPositive();
-            Item.Quality = Fixture.CreateInRange<int>(Inventory.MIN_QUALITY + 2, Inventory.MAX_QUALITY);
-            var expectedChange = -2;
+            var initialQuality = Fixture.CreateInRange<int>(QualitySpecification.MIN_QUALITY + 1, QualitySpecification.MAX_QUALITY);
+            AlterableItem.Quality = initialQuality;
 
-            UpdateInventoryContaining(Item);
+            AlterableItem.ChangeQuality();
 
-            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
+            Assert.That(AlterableItem.Quality, Is.EqualTo(initialQuality - 1));
         }
 
         [Test]
-        public void UpdateStandardItemQuality_GivenQualityThatCouldDecreaseBelowMinimum_LeavesQualityAtMinimum()
+        public void ChangeStandardItemQuality_GivenNonPositiveSellIn_DecreasesQualityByTwo()
         {
-            Item.Quality = Fixture.CreateInRange<int>(Inventory.MIN_QUALITY, Inventory.MIN_QUALITY + 1);
-            var expectedChange = Inventory.MIN_QUALITY - Item.Quality;
+            AlterableItem.SellIn = Fixture.CreateNonPositive();
+            var initialQuality = Fixture.CreateInRange<int>(QualitySpecification.MIN_QUALITY + 2, QualitySpecification.MAX_QUALITY);
+            AlterableItem.Quality = initialQuality;
 
-            UpdateInventoryContaining(Item);
+            AlterableItem.ChangeQuality();
 
-            AssertQualityChangedBy(Item, Inventory.Items[0], expectedChange);
+            Assert.That(AlterableItem.Quality, Is.EqualTo(initialQuality - 2));
+        }
+
+        [Test]
+        public void ChangeStandardItemQuality_GivenQualityThatCouldDecreaseBelowMinimum_LeavesQualityAtMinimum()
+        {
+            var initialQuality = Fixture.CreateInRange<int>(QualitySpecification.MIN_QUALITY, QualitySpecification.MIN_QUALITY + 1);
+            AlterableItem.Quality = initialQuality;
+
+            AlterableItem.ChangeQuality();
+
+            Assert.That(AlterableItem.Quality, Is.EqualTo(QualitySpecification.MIN_QUALITY));
         }
     }
 }

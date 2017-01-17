@@ -1,17 +1,30 @@
-﻿using System.Linq;
-
-namespace GildedRose.Console
+﻿namespace GildedRose.Console
 {
-    public class ItemFactory
+    public class ItemFactory : IItemFactory
     {
-        private static string[] _unalterableItemNames = new string[] { "Sulfuras, Hand of Ragnaros" };
-
-        public Item Create(string name, int daysToSell, int quality)
+        public Item CreateAgedBrieItem(string name, int daysToSell, int quality)
         {
-            if (_unalterableItemNames.Contains(name))
-                return new UnalterableItem { Name = name, SellIn = daysToSell, Quality = quality };
+            return new AgedBrieItem(name, daysToSell, quality);
+        }
 
-            return new AlterableItem { Name = name, SellIn = daysToSell, Quality = quality };
+        public Item CreateBackstagePassItem(string name, int daysToSell, int quality)
+        {
+            return new BackstagePassItem(name, daysToSell, quality);
+        }
+
+        public Item CreateConjuredItem(string name, int daysToSell, int quality)
+        {
+            return new ConjuredItem(name, daysToSell, quality);
+        }
+
+        public Item CreateLegendaryItem(string name, int daysToSell, int quality)
+        {
+            return new LegendaryItem(name, daysToSell, quality);
+        }
+
+        public Item CreateStandardItem(string name, int daysToSell, int quality)
+        {
+            return new StandardItem(name, daysToSell, quality);
         }
     }
 }
