@@ -1,4 +1,5 @@
 ﻿using GildedRose.Console;
+using GildedRose.Console.ItemUpdaters;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 
@@ -10,8 +11,11 @@ namespace GildedRose.Tests
         private const string BACKSTAGE_PASS_TEXT = StoreItemIdentifier.BACKSTAGE_PASS_TEXT;
         private readonly string AGED_BRIE = StoreItemIdentifier.AGED_ITEM_NAMES[0];
         private readonly string SULFURAS = StoreItemIdentifier.LEGENDARY_ITEM_NAMES[0];
-        protected const int MAXIMUM_ITEM_QUALITY = 50;
-        protected const int MINIMUM_ITEM_QUALITY = 0;
+        protected const int APPROACHING_DEADLINE_MARK = BackstagePassUpdater.APPROACHING_DEADLINE_MARK;
+        protected const int IMMINENT_DEADLINE_MARK = BackstagePassUpdater.IMMINENT_DEADLINE_MARK;
+        protected const int MAXIMUM_ITEM_QUALITY = EndOfDayItemUpdater.MAXIMUM_ITEM_QUALITY;
+        protected const int MINIMUM_ITEM_QUALITY = EndOfDayItemUpdater.MINIMUM_ITEM_QUALITY;
+        protected const int ITEM_QUALITY_CHANGE_RATE = EndOfDayItemUpdater.ITEM_QUALITY_CHANGE_RATE;
 
         protected Fixture Fixture { get; set; }
         protected Item Item { get; set; }

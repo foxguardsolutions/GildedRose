@@ -18,10 +18,10 @@ namespace GildedRose.Tests
         }
 
         [Test]
-        public void UpdateQuality_GivenAgedBrie_ReducesSellInBy1AndIncreasesQualityBy1()
+        public void UpdateQuality_GivenAgedBrie_ReducesSellInBy1AndIncreasesQualityByNormalRate()
         {
-            GivenAgedBrieOfQualityAtMost(MAXIMUM_ITEM_QUALITY - 1);
-            var expectedQuality = Item.Quality + 1;
+            GivenAgedBrieOfQualityAtMost(MAXIMUM_ITEM_QUALITY - ITEM_QUALITY_CHANGE_RATE);
+            var expectedQuality = Item.Quality + ITEM_QUALITY_CHANGE_RATE;
 
             _program.UpdateQuality();
 
@@ -42,11 +42,11 @@ namespace GildedRose.Tests
         }
 
         [Test]
-        public void UpdateQuality_GivenAgedBrieWithNegativeSellIn_ReducesSellInBy1AndIncreasesQualityBy2()
+        public void UpdateQuality_GivenAgedBrieWithNegativeSellIn_ReducesSellInBy1AndIncreasesQualityTwiceAsFast()
         {
-            GivenAgedBrieOfQualityAtMostWithNegativeSellIn(MAXIMUM_ITEM_QUALITY - 2);
+            GivenAgedBrieOfQualityAtMostWithNegativeSellIn(MAXIMUM_ITEM_QUALITY - (ITEM_QUALITY_CHANGE_RATE * 2));
             _expectedSellIn = Item.SellIn - 1;
-            var expectedQuality = Item.Quality + 2;
+            var expectedQuality = Item.Quality + (ITEM_QUALITY_CHANGE_RATE * 2);
 
             _program.UpdateQuality();
 
@@ -83,9 +83,10 @@ namespace GildedRose.Tests
         [Test]
         public void UpdateQuality_GivenBackstagePassWithSellInBetween10And6_ReducesSellInBy1AndIncreasesQualityBy2()
         {
-            GivenBackstagePassOfQualityAtMostWithinSellInRange(MAXIMUM_ITEM_QUALITY - 2, 6, 10);
+            GivenBackstagePassOfQualityAtMostWithinSellInRange(MAXIMUM_ITEM_QUALITY - (ITEM_QUALITY_CHANGE_RATE * 3),
+                1, IMMINENT_DEADLINE_MARK);
             _expectedSellIn = Item.SellIn - 1;
-            var expectedQuality = Item.Quality + 2;
+            var expectedQuality = Item.Quality + (ITEM_QUALITY_CHANGE_RATE * 3);
 
             _program.UpdateQuality();
 
@@ -96,9 +97,10 @@ namespace GildedRose.Tests
         [Test]
         public void UpdateQuality_GivenBackstagePassWithSellInGreaterThan10_ReducesSellInBy1AndIncreasesQualityBy1()
         {
-            GivenBackstagePassOfQualityAtMostWithinSellInRange(MAXIMUM_ITEM_QUALITY - 1, 11, int.MaxValue);
+            GivenBackstagePassOfQualityAtMostWithinSellInRange(MAXIMUM_ITEM_QUALITY - ITEM_QUALITY_CHANGE_RATE,
+                APPROACHING_DEADLINE_MARK + 1, int.MaxValue);
             _expectedSellIn = Item.SellIn - 1;
-            var expectedQuality = Item.Quality + 1;
+            var expectedQuality = Item.Quality + ITEM_QUALITY_CHANGE_RATE;
 
             _program.UpdateQuality();
 
@@ -109,9 +111,10 @@ namespace GildedRose.Tests
         [Test]
         public void UpdateQuality_GivenBackstagePassWithSellInLessThan6_ReducesSellInBy1AndIncreasesQualityBy3()
         {
-            GivenBackstagePassOfQualityAtMostWithinSellInRange(MAXIMUM_ITEM_QUALITY - 3, 1, 5);
+            GivenBackstagePassOfQualityAtMostWithinSellInRange(MAXIMUM_ITEM_QUALITY - (ITEM_QUALITY_CHANGE_RATE * 2),
+                IMMINENT_DEADLINE_MARK + 1, APPROACHING_DEADLINE_MARK);
             _expectedSellIn = Item.SellIn - 1;
-            var expectedQuality = Item.Quality + 3;
+            var expectedQuality = Item.Quality + (ITEM_QUALITY_CHANGE_RATE * 2);
 
             _program.UpdateQuality();
 
@@ -120,11 +123,11 @@ namespace GildedRose.Tests
         }
 
         [Test]
-        public void UpdateQuality_GivenItemWithNegativeSellIn_ReducesSellInBy1AndQualityBy2()
+        public void UpdateQuality_GivenItemWithNegativeSellIn_ReducesSellInBy1AndQualityTwiceAsFast()
         {
-            GivenItemOfQualityAtLeastWithNegativeSellIn(MINIMUM_ITEM_QUALITY + 2);
+            GivenItemOfQualityAtLeastWithNegativeSellIn(MINIMUM_ITEM_QUALITY + (ITEM_QUALITY_CHANGE_RATE * 2));
             _expectedSellIn = Item.SellIn - 1;
-            var expectedQuality = Item.Quality - 2;
+            var expectedQuality = Item.Quality - (ITEM_QUALITY_CHANGE_RATE * 2);
 
             _program.UpdateQuality();
 
@@ -133,10 +136,10 @@ namespace GildedRose.Tests
         }
 
         [Test]
-        public void UpdateQuality_GivenItemWithQualityGreaterThanMinimumQuality_ReducesSellInAndQualityBy1()
+        public void UpdateQuality_GivenItemWithQualityGreaterThanMinimumQuality_ReducesSellInAndQualityByNormalRate()
         {
-            GivenItemOfQualityAtLeast(MINIMUM_ITEM_QUALITY + 1);
-            var expectedQuality = Item.Quality - 1;
+            GivenItemOfQualityAtLeast(MINIMUM_ITEM_QUALITY + ITEM_QUALITY_CHANGE_RATE);
+            var expectedQuality = Item.Quality - ITEM_QUALITY_CHANGE_RATE;
 
             _program.UpdateQuality();
 
