@@ -123,6 +123,43 @@ namespace GildedRose.Tests
         }
 
         [Test]
+        public void UpdateQuality_GivenConjuredItem_ReducesSellInBy1AndQualityTwiceAsFast()
+        {
+            GivenConjuredItemOfQualityAtLeast(ITEM_QUALITY_CHANGE_RATE * 2);
+            var expectedQuality = Item.Quality - (ITEM_QUALITY_CHANGE_RATE * 2);
+
+            _program.UpdateQuality();
+
+            Assert.That(Item.SellIn, Is.EqualTo(_expectedSellIn));
+            Assert.That(Item.Quality, Is.EqualTo(expectedQuality));
+        }
+
+        [Test]
+        public void UpdateQuality_GivenConjuredItemOfMinimumQuality_ReducesSellInValueAndIgnoresQuality()
+        {
+            GivenConjuredItemOfMinimumQuality();
+            var expectedQuality = Item.Quality;
+
+            _program.UpdateQuality();
+
+            Assert.That(Item.SellIn, Is.EqualTo(_expectedSellIn));
+            Assert.That(Item.Quality, Is.EqualTo(expectedQuality));
+        }
+
+        [Test]
+        public void UpdateQuality_GivenConjuredItemWithNegativeSellIn_ReducesSellInBy1AndQualityFourTimesAsFast()
+        {
+            GivenConjuredItemOfQualityAtLeastWithNegativeSellIn(MAXIMUM_ITEM_QUALITY - (ITEM_QUALITY_CHANGE_RATE * 4));
+            _expectedSellIn = Item.SellIn - 1;
+            var expectedQuality = Item.Quality - (ITEM_QUALITY_CHANGE_RATE * 4);
+
+            _program.UpdateQuality();
+
+            Assert.That(Item.SellIn, Is.EqualTo(_expectedSellIn));
+            Assert.That(Item.Quality, Is.EqualTo(expectedQuality));
+        }
+
+        [Test]
         public void UpdateQuality_GivenItemWithNegativeSellIn_ReducesSellInBy1AndQualityTwiceAsFast()
         {
             GivenItemOfQualityAtLeastWithNegativeSellIn(MINIMUM_ITEM_QUALITY + (ITEM_QUALITY_CHANGE_RATE * 2));
@@ -209,6 +246,24 @@ namespace GildedRose.Tests
         {
             GivenBackstagePass();
             GivenItemOfQuality(MAXIMUM_ITEM_QUALITY);
+        }
+
+        private void GivenConjuredItemOfMinimumQuality()
+        {
+            GivenConjuredItem();
+            GivenItemOfQuality(MINIMUM_ITEM_QUALITY);
+        }
+
+        private void GivenConjuredItemOfQualityAtLeast(int lowestQuality)
+        {
+            GivenConjuredItem();
+            GivenItemOfQualityAtLeast(lowestQuality);
+        }
+
+        private void GivenConjuredItemOfQualityAtLeastWithNegativeSellIn(int lowestQuality)
+        {
+            GivenConjuredItem();
+            GivenItemOfQualityAtLeastWithNegativeSellIn(lowestQuality);
         }
     }
 }

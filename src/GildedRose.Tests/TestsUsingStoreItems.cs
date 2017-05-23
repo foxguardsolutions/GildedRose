@@ -9,6 +9,7 @@ namespace GildedRose.Tests
     public class TestsUsingStoreItems
     {
         private const string BACKSTAGE_PASS_TEXT = StoreItemIdentifier.BACKSTAGE_PASS_TEXT;
+        private const string CONJURED_ITEM_TEXT = StoreItemIdentifier.CONJURED_ITEM_TEXT;
         private readonly string AGED_BRIE = StoreItemIdentifier.AGED_ITEM_NAMES[0];
         private readonly string SULFURAS = StoreItemIdentifier.LEGENDARY_ITEM_NAMES[0];
         protected const int APPROACHING_DEADLINE_MARK = BackstagePassUpdater.APPROACHING_DEADLINE_MARK;
@@ -37,6 +38,11 @@ namespace GildedRose.Tests
         protected void GivenBackstagePass()
         {
             Item.Name = Fixture.Create($"{BACKSTAGE_PASS_TEXT} ");
+        }
+
+        protected void GivenConjuredItem()
+        {
+            Item.Name = Fixture.Create($"{CONJURED_ITEM_TEXT} ");
         }
 
         protected void GivenItemOfQuality(int quality)

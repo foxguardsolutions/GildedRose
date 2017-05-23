@@ -4,6 +4,7 @@
     {
         Aged,
         BackstagePass,
+        Conjured,
         Legendary,
         Normal
     }

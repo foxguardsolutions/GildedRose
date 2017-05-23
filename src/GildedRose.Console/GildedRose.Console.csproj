@@ -57,6 +57,7 @@
     <Compile Include="ItemCategory.cs" />
     <Compile Include="ItemUpdaters\AgedItemUpdater.cs" />
     <Compile Include="ItemUpdaters\BackstagePassUpdater.cs" />
+    <Compile Include="ItemUpdaters\ConjuredItemUpdater.cs" />
     <Compile Include="ItemUpdaters\EndOfDayItemUpdater.cs" />
     <Compile Include="ItemUpdaters\EndOfDayItemUpdaterFactory.cs" />
     <Compile Include="ItemUpdaters\ItemQualityDecreaser.cs" />

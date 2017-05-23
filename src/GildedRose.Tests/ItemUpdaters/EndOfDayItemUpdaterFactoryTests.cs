@@ -27,6 +27,16 @@ namespace GildedRose.Tests.ItemUpdaters
         }
 
         [Test]
+        public void GetItemUpdater_GivenConjuredItem_ReturnsConjuredItemUpdater()
+        {
+            GivenConjuredItem();
+
+            var actual = EndOfDayItemUpdaterFactory.GetItemUpdater(Item);
+
+            Assert.That(actual, Is.TypeOf<ConjuredItemUpdater>());
+        }
+
+        [Test]
         public void GetItemUpdater_GivenItem_ReturnsNormalItemUpdater()
         {
             var actual = EndOfDayItemUpdaterFactory.GetItemUpdater(Item);

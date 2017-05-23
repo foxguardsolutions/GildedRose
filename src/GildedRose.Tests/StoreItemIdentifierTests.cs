@@ -27,6 +27,16 @@ namespace GildedRose.Tests
         }
 
         [Test]
+        public void GetCategory_GivenConjuredItem_ReturnsConjuredItem()
+        {
+            GivenConjuredItem();
+
+            var actual = StoreItemIdentifier.GetCategory(Item);
+
+            Assert.That(actual, Is.EqualTo(ItemCategory.Conjured));
+        }
+
+        [Test]
         public void GetCategory_GivenItem_ReturnsNormal()
         {
             var actual = StoreItemIdentifier.GetCategory(Item);

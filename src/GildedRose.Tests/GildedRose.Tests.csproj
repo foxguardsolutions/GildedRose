@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="ItemUpdaters\AgedItemUpdaterTests.cs" />
     <Compile Include="ItemUpdaters\BackstagePassUpdaterTests.cs" />
+    <Compile Include="ItemUpdaters\ConjuredItemUpdaterTests.cs" />
     <Compile Include="ItemUpdaters\EndOfDayItemUpdaterFactoryTests.cs" />
     <Compile Include="ItemUpdaters\LegendaryItemUpdaterTests.cs" />
     <Compile Include="ItemUpdaters\NormalItemUpdaterTests.cs" />
