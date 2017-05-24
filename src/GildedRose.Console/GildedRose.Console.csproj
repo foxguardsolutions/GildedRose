@@ -41,8 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgedItem.cs" />
+    <Compile Include="BaseItem.cs" />
+    <Compile Include="ConjuredItem.cs" />
+    <Compile Include="IItem.cs" />
+    <Compile Include="LegendaryItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TicketItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
